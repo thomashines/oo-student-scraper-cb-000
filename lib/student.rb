@@ -25,97 +25,21 @@ class Student
     students_array.each do |student_hash|
       Student.new(student_hash)
     end
+    # class method taking in "students_array" and running .each, looking at each "student_hash". Creates a new student instance with each student_hash.
   end
 
   def add_student_attributes(attributes_hash)
     attributes_hash.each do |key, value|
       self.send("#{key}=", value)
+      # takes in a hash of student attributes. iterates over each of their key/value pairs, then sends the pairs to self.
     end
     self
+    # finally, it returns self.
   end
 
   def self.all
     @@all
+    # allows @@all class variable to be accessed from outside the class.
   end
 
 end
-
-# One of the most useful feature I think with .send method is that it can dynamically call on method. This can save you a lot of typing. One of the most popular use of .send method is to assign attributes dynamically. For example:
-#
-# class Car
-#   attr_accessor :make, :model, :year
-# end
-# To assign attributes regularly one would need to
-#
-# c = Car.new
-# c.make="Honda"
-# c.model="CRV"
-# c.year="2014"
-# Or using .send method:
-#
-# c.send("make=", "Honda")
-# c.send("model=", "CRV")
-# c.send("year=","2014")
-# But it can all be replaced with the following:
-#
-# Assuming your Rails app needs to assign attributes to your car class from user input, you can do
-#
-# c = Car.new()
-# params.each do |key, value|
-#   c.send("#{key}=", value)
-# end
-# Through googling I found this wiki page which has more information on .send method https://code.google.com/p/ruby-security/wiki/Guide#send()_-_invoking_methods_dynamically
-
-# class Course
-#   attr_accessor :title, :schedule, :description
-#
-#   @@all = []
-#
-#   def initialize
-#     @@all << self
-#   end
-#
-#   def self.all
-#     @@all
-#   end
-#
-#   def self.reset_all
-#     self.all.clear
-#   end
-#
-# end
-#
-# # rspec spec/course_spec.rb
-
-# require 'pry'
-# require 'nokogiri'
-
-# projects: kickstarter.css("li.project.grid_4")
-# title: project.css("h2.bbcard_name strong a").text
-# image link: project.css("div.project-thumbnail a img").attribute("src").value
-# description: project.css("p.bbcard_blurb").text
-# location: project.css("ul.project-meta li a span.location-name").text
-# percent_funded: project.css("ul.project-stats li.first.funded strong").text.gsub("%","").to_i
-
-# def create_project_hash
-#   html = File.read('fixtures/kickstarter.html')
-#   kickstarter = Nokogiri::HTML(html)
-#   projects = {}
-#
-#   kickstarter.css("li.project.grid_4").each do |project|
-#     title = project.css("h2.bbcard_name strong a").text
-#     projects[title.to_sym] = {
-#       :image_link => project.css("div.project-thumbnail a img").attribute("src").value,
-#       :description => project.css("p.bbcard_blurb").text,
-#       :location => project.css("ul.project-meta span.location-name").text,
-#       :percent_funded => project.css("ul.project-stats li.first.funded strong").text.gsub("%","").to_i
-#     }
-#   end
-#
-#   return projects
-#
-#   binding.pry
-# end
-#
-# create_project_hash
-#
